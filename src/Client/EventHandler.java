@@ -10,22 +10,39 @@ import org.cads.ev3.rmi.generated.cadSRMIInterface.IIDLCaDSEV3RMIUltraSonic;
 public class EventHandler implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMoveHorizontal, IIDLCaDSEV3RMIMoveVertical, IIDLCaDSEV3RMIUltraSonic, ICaDSRMIConsumer {
 
 	private CaDSRobotGUISwing gui = null;
+	private RobotHandler robotHandler = null;
 
 	EventHandler() {
 		gui = new CaDSRobotGUISwing(this, this, this, this, this);
 		gui.addService("test");
+		robotHandler = new RobotHandler(this);
 	}
+	
+	public void setVertical(int val){
+    	gui.setVerticalProgressbar(val);
+    }
+	
+    public void setHorizontal(int val){
+    	gui.setHorizontalProgressbar(val);
+    }
+    
+    public void setGrip(boolean isOpen){
+    	if(isOpen){
+    		gui.setGripperOpen();
+    	}
+    	else{
+    		gui.setGripperClosed();
+    	}
+    }
 
 	@Override
 	public void register(ICaDSRobotGUIUpdater arg0) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void update(String arg0) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -41,8 +58,8 @@ public class EventHandler implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMo
 	}
 
 	@Override
-	public int moveVerticalToPercent(int arg0, int arg1) throws Exception {
-		// TODO Auto-generated method stub
+	public int moveVerticalToPercent(int transactionID, int percent) throws Exception {
+		robotHandler.setVertical(percent);
 		return 0;
 	}
 
@@ -53,20 +70,20 @@ public class EventHandler implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMo
 	}
 
 	@Override
-	public int moveHorizontalToPercent(int arg0, int arg1) throws Exception {
+	public int moveHorizontalToPercent(int transactionID, int percent) throws Exception {
+		robotHandler.setHorizontal(percent);
+		return 0;
+	}
+
+	@Override
+	public int stop(int transactionID) throws Exception {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int stop(int arg0) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int closeGripper(int arg0) throws Exception {
-		// TODO Auto-generated method stub
+	public int closeGripper(int transactionID) throws Exception {
+		robotHandler.setGripper(true);
 		return 0;
 	}
 
@@ -77,8 +94,8 @@ public class EventHandler implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMo
 	}
 
 	@Override
-	public int openGripper(int arg0) throws Exception {
-		// TODO Auto-generated method stub
+	public int openGripper(int transactionID) throws Exception {
+		robotHandler.setGripper(false);
 		return 0;
 	}
 
