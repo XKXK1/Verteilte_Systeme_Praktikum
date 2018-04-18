@@ -1,3 +1,4 @@
+package Client;
 import org.cads.ev3.gui.ICaDSRobotGUIUpdater;
 import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
 import org.cads.ev3.rmi.consumer.ICaDSRMIConsumer;
@@ -12,6 +13,7 @@ public class EventHandler implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMo
 
 	EventHandler() {
 		gui = new CaDSRobotGUISwing(this, this, this, this, this);
+		gui.addService("test");
 	}
 
 	@Override
