@@ -9,7 +9,7 @@ import org.json.simple.JSONObject;
 import Middleware.*;
 
 public class GripperService
-		implements ServiceProvider, Runnable, ICaDSEV3RobotStatusListener, ICaDSEV3RobotFeedBackListener {
+		implements ServiceProvider, Runnable {
 	private static CaDSEV3RobotHAL caller = null;
 	private MessageHandler messageHandler;
 	private boolean running = false;
@@ -20,21 +20,11 @@ public class GripperService
 
 	public GripperService(int port) {
 		running = true;
-		caller = CaDSEV3RobotHAL.createInstance(CaDSEV3RobotType.SIMULATION, this, this);
+		caller = CaDSEV3RobotHAL.getInstance();
 		messageHandler = new MessageHandler(port);
-
 	}
 
-	@Override
-	public synchronized void giveFeedbackByJSonTo(JSONObject feedback) {
-		//System.out.println(feedback);
-	}
 
-	@Override
-	public synchronized void onStatusMessage(JSONObject status) {
-		//System.out.println(status);
-
-	}
 
 	public void gripperOpen() {
 		caller.doOpen();
@@ -52,9 +42,10 @@ public class GripperService
 		
 		System.out.println("thread started");
 		while (running) {
-			System.out.println("while running");
 			msg = messageHandler.receiveMessage();
-			handleMessage(msg);		
+			if(msg != null) {
+				handleMessage(msg);		
+			}
 			//messageHandler.sendMessage(msg);
 		}
 
