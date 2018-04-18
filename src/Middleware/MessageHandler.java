@@ -28,7 +28,7 @@ public class MessageHandler{
 	private Message JsonToMsg(JSONObject json) {
 		MessageCommands command = MessageCommands.fromInteger( Integer.parseInt((String) json.get("Command")));
 		MessageType type = MessageType.fromInteger( Integer.parseInt((String) json.get("Type")));
-		float value = Float.parseFloat((String)json.get("Value"));
+		int value = Integer.parseInt((String)json.get("Value"));
 		
 		Message msg = new Message(type, command, value);
 		return msg;
@@ -40,7 +40,7 @@ public class MessageHandler{
 
 		jsonObj.put("Command", Integer.toString( MessageCommands.toInteger(msg.getCommand())));	      
 		jsonObj.put("Type", Integer.toString( MessageType.toInteger(msg.getType())));
-		jsonObj.put("Value", Float.toString( msg.getValue()) );
+		jsonObj.put("Value", Integer.toString( msg.getValue()) );
 
 		return jsonObj;
 	}

@@ -56,7 +56,7 @@ public class GripperService
 	public void kill() {
 		running = false;
 	}
-
+	
 	@Override
 	public void handleMessage(Message message) {
 		switch (message.getCommand()) {

@@ -5,11 +5,11 @@ import java.net.InetAddress;
 public class Message {
 	private MessageType type;
 	private MessageCommands command;
-	private float value;
+	private int value;
 	private int port;
 	private InetAddress address;
 	
-	public Message(MessageType type, MessageCommands command, float value) {
+	public Message(MessageType type, MessageCommands command, int value) {
 		this.type = type;
 		this.command = command;
 		this.value = value;
@@ -21,7 +21,7 @@ public class Message {
 	public MessageCommands getCommand() {
 		return command;
 	}
-	public float getValue() {
+	public int getValue() {
 		return value;
 	}
 	public int getPort() {
@@ -42,7 +42,7 @@ public class Message {
 	public void setCommand(MessageCommands command) {
 		this.command = command;
 	}
-	public void setValue(float value) {
+	public void setValue(int value) {
 		this.value = value;
 	}
 	
