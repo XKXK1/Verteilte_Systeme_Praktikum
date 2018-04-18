@@ -2,32 +2,20 @@ package Server;
 
 import org.cads.ev3.middleware.CaDSEV3RobotHAL;
 
+import Middleware.Message;
+import Middleware.MessageHandler;
 
-import Middleware.*;
-
-public class GripperService implements ServiceProvider, Runnable {
+public class VerticalService implements ServiceProvider, Runnable {
 	private static CaDSEV3RobotHAL caller = null;
 	private MessageHandler messageHandler;
 	private boolean running = false;
-	private int gripValue = -1;
-
-	enum GripperStates {
-		OPEN, CLOSE
-	};
-
-	public GripperService(int port) {
+	
+	private int current;
+	private int goal;
+	
+	public VerticalService(int port) {
 		running = true;
 		messageHandler = new MessageHandler(port);
-	}
-
-	public void gripperOpen() {
-		caller.doOpen();
-
-	}
-
-	public void gripperClose() {
-		caller.doClose();
-
 	}
 
 	@Override
@@ -41,7 +29,6 @@ public class GripperService implements ServiceProvider, Runnable {
 			if (msg != null) {
 				handleMessage(msg);
 			}
-			// messageHandler.sendMessage(msg);
 		}
 
 		System.out.println("thread killed");
@@ -56,11 +43,15 @@ public class GripperService implements ServiceProvider, Runnable {
 	public void handleMessage(Message message) {
 		switch (message.getCommand()) {
 		case SET:
-			if (message.getValue() == 0) {
-				gripperClose();
-			} else if (message.getValue() == 1) {
-				gripperOpen();
+			caller.stop_v();
+			goal = message.getValue();
+			System.out.println(goal);
+			if (goal > current) {
+				caller.moveUp();
+			} else if (goal < current) {
+				caller.moveDown();
 			}
+			break;
 		case GET:
 			break;
 		case REPLY:
@@ -70,9 +61,13 @@ public class GripperService implements ServiceProvider, Runnable {
 		}
 	}
 
-	public void update(String value) {
-		//System.out.println(value);		
+	public void update(Integer value) {
+		if(value != null) {
+			current = value;
+			if(current == goal) {
+				caller.stop_v();
+			}
+		}
 	}
-
 
 }

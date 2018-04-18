@@ -2,32 +2,19 @@ package Server;
 
 import org.cads.ev3.middleware.CaDSEV3RobotHAL;
 
+import Middleware.Message;
+import Middleware.MessageHandler;
 
-import Middleware.*;
-
-public class GripperService implements ServiceProvider, Runnable {
+public class HorizontalService implements ServiceProvider, Runnable {
 	private static CaDSEV3RobotHAL caller = null;
 	private MessageHandler messageHandler;
 	private boolean running = false;
-	private int gripValue = -1;
-
-	enum GripperStates {
-		OPEN, CLOSE
-	};
-
-	public GripperService(int port) {
+	private int current = 0;
+	private int goal = 0;
+	
+	public HorizontalService(int port) {
 		running = true;
 		messageHandler = new MessageHandler(port);
-	}
-
-	public void gripperOpen() {
-		caller.doOpen();
-
-	}
-
-	public void gripperClose() {
-		caller.doClose();
-
 	}
 
 	@Override
@@ -56,11 +43,17 @@ public class GripperService implements ServiceProvider, Runnable {
 	public void handleMessage(Message message) {
 		switch (message.getCommand()) {
 		case SET:
-			if (message.getValue() == 0) {
-				gripperClose();
-			} else if (message.getValue() == 1) {
-				gripperOpen();
+			System.out.println("Test");
+			caller.stop_h();
+			goal = message.getValue();
+			System.out.println(goal);
+			if (goal > current) {
+				caller.moveLeft();
+			} else if (goal < current) {
+				caller.moveRight();
 			}
+			System.out.println("ende");
+			break;
 		case GET:
 			break;
 		case REPLY:
@@ -70,9 +63,13 @@ public class GripperService implements ServiceProvider, Runnable {
 		}
 	}
 
-	public void update(String value) {
-		//System.out.println(value);		
+	public void update(Integer value) {
+		if(value != null) {
+			current = value;
+			if(current == goal) {
+				caller.stop_h();
+			}
+		}
 	}
-
 
 }

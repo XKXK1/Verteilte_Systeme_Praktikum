@@ -8,6 +8,11 @@ public class MessageHandler{
 	public MessageHandler(int port) {
 		udpHandler = new UdpHandler(port);
 	}
+	
+	public MessageHandler() {
+		udpHandler = new UdpHandler();
+	}
+	
 	public void sendMessage(Message msg) {
 		JSONObject json = MsgToJson(msg);
 		UdpWrapper wrapper = new UdpWrapper(msg.getPort(), msg.getAddress(), json);
@@ -24,6 +29,7 @@ public class MessageHandler{
 		}
 		return null;
 	}
+	
 	
 	private Message JsonToMsg(JSONObject json) {
 		MessageCommands command = MessageCommands.fromInteger( Integer.parseInt((String) json.get("Command")));

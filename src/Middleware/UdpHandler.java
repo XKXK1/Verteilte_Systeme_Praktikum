@@ -24,6 +24,18 @@ public class UdpHandler {
 		
 	}
 	
+	public UdpHandler() {	
+		try {
+			//create ListeningPort
+			socket = new DatagramSocket();
+			socket.setSoTimeout(1000);
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void sendJson(UdpWrapper msg) {
 		//make byte[] from jasonfile	
 		String jsonString = msg.getJsonObj().toJSONString();

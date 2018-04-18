@@ -21,8 +21,8 @@ public class RobotHandler {
 		
 		try {
 			gripperAddress = new ServiceAddress(InetAddress.getByName("localhost"), 2000);
-			verticalAddress = new ServiceAddress(InetAddress.getByName("localhost"), 20001);
-			horizontalAddress = new ServiceAddress(InetAddress.getByName("localhost"), 20002);
+			horizontalAddress = new ServiceAddress(InetAddress.getByName("localhost"), 2001);
+			verticalAddress = new ServiceAddress(InetAddress.getByName("localhost"), 2002);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
