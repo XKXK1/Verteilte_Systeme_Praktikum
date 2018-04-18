@@ -35,16 +35,15 @@ public class GripperService implements ServiceProvider, Runnable {
 		Message msg = null;
 		caller = CaDSEV3RobotHAL.getInstance();
 
-		System.out.println("thread started");
+		System.out.println("grip service started");
 		while (running) {
 			msg = messageHandler.receiveMessage();
 			if (msg != null) {
 				handleMessage(msg);
 			}
-			// messageHandler.sendMessage(msg);
 		}
 
-		System.out.println("thread killed");
+		System.out.println("grip service ended");
 	}
 
 	@Override

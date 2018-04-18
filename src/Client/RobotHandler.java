@@ -28,6 +28,7 @@ public class RobotHandler {
 		}
 		
 		consumer = new ServiceConsumer(this, verticalAddress , horizontalAddress, gripperAddress);
+		consumer.startRecv();
 	}
 	
 	public void setHorizontal(int val){

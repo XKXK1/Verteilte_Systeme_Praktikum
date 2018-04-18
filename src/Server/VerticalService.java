@@ -3,7 +3,9 @@ package Server;
 import org.cads.ev3.middleware.CaDSEV3RobotHAL;
 
 import Middleware.Message;
+import Middleware.MessageCommands;
 import Middleware.MessageHandler;
+import Middleware.MessageType;
 
 public class VerticalService implements ServiceProvider, Runnable {
 	private static CaDSEV3RobotHAL caller = null;
@@ -23,7 +25,7 @@ public class VerticalService implements ServiceProvider, Runnable {
 		Message msg = null;
 		caller = CaDSEV3RobotHAL.getInstance();
 
-		System.out.println("thread started");
+		System.out.println("vertical service started");
 		while (running) {
 			msg = messageHandler.receiveMessage();
 			if (msg != null) {
@@ -31,7 +33,7 @@ public class VerticalService implements ServiceProvider, Runnable {
 			}
 		}
 
-		System.out.println("thread killed");
+		System.out.println("vertical service ended");
 	}
 
 	@Override
@@ -47,12 +49,31 @@ public class VerticalService implements ServiceProvider, Runnable {
 			goal = message.getValue();
 			System.out.println(goal);
 			if (goal > current) {
-				caller.moveUp();
+				
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						caller.moveUp();
+					}
+				}).start();
+				
 			} else if (goal < current) {
-				caller.moveDown();
+				
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						caller.moveDown();
+					}
+				}).start();
+				
 			}
 			break;
 		case GET:
+			Message reply = new Message(MessageType.VERTICAl, MessageCommands.REPLY, current);
+			reply.setAddress(message.getAddress());
+			reply.setPort(message.getPort());
+			
+			messageHandler.sendMessage(reply);
 			break;
 		case REPLY:
 			break;

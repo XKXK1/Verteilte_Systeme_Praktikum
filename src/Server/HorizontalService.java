@@ -3,7 +3,9 @@ package Server;
 import org.cads.ev3.middleware.CaDSEV3RobotHAL;
 
 import Middleware.Message;
+import Middleware.MessageCommands;
 import Middleware.MessageHandler;
+import Middleware.MessageType;
 
 public class HorizontalService implements ServiceProvider, Runnable {
 	private static CaDSEV3RobotHAL caller = null;
@@ -22,16 +24,15 @@ public class HorizontalService implements ServiceProvider, Runnable {
 		Message msg = null;
 		caller = CaDSEV3RobotHAL.getInstance();
 
-		System.out.println("thread started");
+		System.out.println("horizontal service started");
 		while (running) {
 			msg = messageHandler.receiveMessage();
 			if (msg != null) {
 				handleMessage(msg);
 			}
-			// messageHandler.sendMessage(msg);
 		}
 
-		System.out.println("thread killed");
+		System.out.println("horizontal service ended");
 	}
 
 	@Override
@@ -43,18 +44,35 @@ public class HorizontalService implements ServiceProvider, Runnable {
 	public void handleMessage(Message message) {
 		switch (message.getCommand()) {
 		case SET:
-			System.out.println("Test");
 			caller.stop_h();
 			goal = message.getValue();
 			System.out.println(goal);
 			if (goal > current) {
-				caller.moveLeft();
+				
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						caller.moveLeft();
+					}
+				}).start();
+				
 			} else if (goal < current) {
-				caller.moveRight();
+				
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						caller.moveRight();
+					}
+				}).start();
+				
 			}
-			System.out.println("ende");
 			break;
 		case GET:
+			Message reply = new Message(MessageType.HORIZONTAL, MessageCommands.REPLY, current);
+			reply.setAddress(message.getAddress());
+			reply.setPort(message.getPort());
+			
+			messageHandler.sendMessage(reply);
 			break;
 		case REPLY:
 			break;

@@ -71,6 +71,7 @@ public class EventHandler implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMo
 
 	@Override
 	public int moveHorizontalToPercent(int transactionID, int percent) throws Exception {
+		System.out.println("Current horizontal goal: " + percent);
 		robotHandler.setHorizontal(percent);
 		return 0;
 	}

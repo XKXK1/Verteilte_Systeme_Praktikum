@@ -16,7 +16,7 @@ public class UdpHandler {
 		try {
 			//create ListeningPort
 			socket = new DatagramSocket(serverPort);
-			socket.setSoTimeout(1000);
+			socket.setSoTimeout(500);
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
