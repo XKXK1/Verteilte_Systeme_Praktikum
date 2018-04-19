@@ -11,6 +11,7 @@ public class ServiceConsumer implements Runnable{
 	private float verticalPosition = 0;
 	private float horizontalPosition = 0;
 	private boolean isGripperOpen = false;
+	private final int delay = 128;
 	
 	private boolean isAlive = false;
 	private Thread recvThread = null;
@@ -84,7 +85,7 @@ public class ServiceConsumer implements Runnable{
 			getGripper();
 			getHorizontal();
 			getVertical();
-			Delay.msDelay(500);
+			Delay.msDelay(delay);
 		}
 	}
 	
