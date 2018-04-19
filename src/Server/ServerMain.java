@@ -8,7 +8,7 @@ public class ServerMain {
 		GripperService gService = new GripperService(2000);
 		HorizontalService hService = new HorizontalService(2001);
 		VerticalService vService = new VerticalService(2002);
-		HalDataContainer halContainer = new HalDataContainer(gService,hService,vService);		
+		new HalDataContainer(gService,hService,vService);		
 		
 		Thread verticalThread = new Thread(vService);
 		Thread horizontalThread = new Thread(hService);

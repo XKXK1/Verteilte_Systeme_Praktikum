@@ -8,13 +8,13 @@ import Middleware.MessageHandler;
 import Middleware.MessageType;
 
 public class VerticalService implements ServiceProvider, Runnable {
-	private static CaDSEV3RobotHAL caller = null;
+	private  CaDSEV3RobotHAL caller = null;
 	private MessageHandler messageHandler;
 	private boolean running = false;
 	
 	private int current= 0;
 	private int goal = -1;
-	boolean up = false;
+	private boolean up = false;
 	
 	public VerticalService(int port) {
 		running = true;

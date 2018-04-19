@@ -8,7 +8,7 @@ import Middleware.MessageHandler;
 import Middleware.MessageType;
 
 public class HorizontalService implements ServiceProvider, Runnable {
-	private static CaDSEV3RobotHAL caller = null;
+	private CaDSEV3RobotHAL caller = null;
 	private MessageHandler messageHandler;
 	private boolean running = false;
 	private int current = 0;
@@ -32,7 +32,6 @@ public class HorizontalService implements ServiceProvider, Runnable {
 				handleMessage(msg);
 			}
 		}
-
 		System.out.println("horizontal service ended");
 	}
 
@@ -97,9 +96,6 @@ public class HorizontalService implements ServiceProvider, Runnable {
 					caller.stop_h();
 				}
 			}
-
-
 		}
 	}
-
 }

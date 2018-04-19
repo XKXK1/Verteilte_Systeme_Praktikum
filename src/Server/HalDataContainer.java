@@ -34,10 +34,8 @@ public class HalDataContainer implements ICaDSEV3RobotStatusListener, ICaDSEV3Ro
 			hService.update(((Long)status.get("percent")).intValue());
 			
 		} else if("vertical".equals(state)) {
-			vService.update(((Long)status.get("percent")).intValue());
-			
+			vService.update(((Long)status.get("percent")).intValue());			
 		}
 		
-		//System.out.println(status.toJSONString()+"\n\n");
 	}
 }

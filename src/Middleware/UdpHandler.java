@@ -11,12 +11,14 @@ import org.json.simple.parser.ParseException;
 
 public class UdpHandler {
 	private DatagramSocket socket;
+	private final int packetSize = 1024;
+	private final int timeOut = 500;
 	
 	public UdpHandler(int serverPort) {	
 		try {
 			//create ListeningPort
 			socket = new DatagramSocket(serverPort);
-			socket.setSoTimeout(500);
+			socket.setSoTimeout(timeOut);
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -55,7 +57,7 @@ public class UdpHandler {
 	}
 	
 	public UdpWrapper receiveJson() {
-		DatagramPacket packet = new DatagramPacket(new byte[1024], 1024);
+		DatagramPacket packet = new DatagramPacket(new byte[packetSize], packetSize);
 		try {
 			socket.receive(packet);
 			
