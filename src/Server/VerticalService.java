@@ -12,8 +12,9 @@ public class VerticalService implements ServiceProvider, Runnable {
 	private MessageHandler messageHandler;
 	private boolean running = false;
 	
-	private int current;
-	private int goal;
+	private int current= 0;
+	private int goal = -1;
+	boolean up = false;
 	
 	public VerticalService(int port) {
 		running = true;
@@ -49,6 +50,7 @@ public class VerticalService implements ServiceProvider, Runnable {
 			goal = message.getValue();
 			System.out.println(goal);
 			if (goal > current) {
+				up = true;
 				
 				new Thread(new Runnable() {
 					@Override
@@ -58,6 +60,7 @@ public class VerticalService implements ServiceProvider, Runnable {
 				}).start();
 				
 			} else if (goal < current) {
+				up = false;
 				
 				new Thread(new Runnable() {
 					@Override
@@ -85,9 +88,18 @@ public class VerticalService implements ServiceProvider, Runnable {
 	public void update(Integer value) {
 		if(value != null) {
 			current = value;
-			if(current == goal) {
-				caller.stop_v();
+		
+			if(up) {
+				if(current >= goal) {
+					caller.stop_v();
+				}
+			} else if(!up) {
+				if(current <= goal) {
+					caller.stop_v();
+				}
 			}
+
+
 		}
 	}
 

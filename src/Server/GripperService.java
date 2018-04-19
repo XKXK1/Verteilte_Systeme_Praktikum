@@ -2,18 +2,13 @@ package Server;
 
 import org.cads.ev3.middleware.CaDSEV3RobotHAL;
 
-
 import Middleware.*;
 
 public class GripperService implements ServiceProvider, Runnable {
 	private static CaDSEV3RobotHAL caller = null;
 	private MessageHandler messageHandler;
 	private boolean running = false;
-	private int gripValue = -1;
-
-	enum GripperStates {
-		OPEN, CLOSE
-	};
+	private boolean open = false;
 
 	public GripperService(int port) {
 		running = true;
@@ -61,6 +56,15 @@ public class GripperService implements ServiceProvider, Runnable {
 				gripperOpen();
 			}
 		case GET:
+			Message reply;
+			if (open) {
+				reply = new Message(MessageType.GRIP, MessageCommands.REPLY, 1);
+			} else {
+				reply = new Message(MessageType.GRIP, MessageCommands.REPLY, 0);
+			}
+			reply.setAddress(message.getAddress());
+			reply.setPort(message.getPort());
+			messageHandler.sendMessage(reply);
 			break;
 		case REPLY:
 			break;
@@ -70,8 +74,12 @@ public class GripperService implements ServiceProvider, Runnable {
 	}
 
 	public void update(String value) {
-		//System.out.println(value);		
+		//System.out.println(value);
+		if(value == "closed") {
+			open = false;
+		} else {
+			open = true;
+		}
 	}
-
 
 }

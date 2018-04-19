@@ -100,7 +100,7 @@ public class ServiceConsumer implements Runnable{
 				if(msg.getValue() == 1){
 					if(!isGripperOpen){
 						isGripperOpen = true;
-						handler.setGripper(isGripperOpen);
+						handler.getGripper(isGripperOpen);
 					}
 				}
 				else{

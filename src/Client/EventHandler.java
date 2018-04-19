@@ -84,7 +84,7 @@ public class EventHandler implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMo
 
 	@Override
 	public int closeGripper(int transactionID) throws Exception {
-		robotHandler.setGripper(true);
+		robotHandler.setGripper(false);
 		return 0;
 	}
 
@@ -96,7 +96,7 @@ public class EventHandler implements IIDLCaDSEV3RMIMoveGripper, IIDLCaDSEV3RMIMo
 
 	@Override
 	public int openGripper(int transactionID) throws Exception {
-		robotHandler.setGripper(false);
+		robotHandler.setGripper(true);
 		return 0;
 	}
 
