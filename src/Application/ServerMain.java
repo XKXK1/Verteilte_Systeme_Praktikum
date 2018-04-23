@@ -1,6 +1,11 @@
-package Server;
+package Application;
 
 import java.util.Scanner;
+
+import Application.Server.Controller.GripperService;
+import Application.Server.Controller.HalDataContainer;
+import Application.Server.Controller.HorizontalService;
+import Application.Server.Controller.VerticalService;
 
 public class ServerMain {
 

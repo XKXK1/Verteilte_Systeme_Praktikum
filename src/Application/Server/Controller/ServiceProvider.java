@@ -1,4 +1,4 @@
-package Server;
+package Application.Server.Controller;
 
 import Middleware.Message;
 

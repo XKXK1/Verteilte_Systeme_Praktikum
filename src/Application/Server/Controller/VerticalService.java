@@ -1,4 +1,4 @@
-package Server;
+package Application.Server.Controller;
 
 import org.cads.ev3.middleware.CaDSEV3RobotHAL;
 
