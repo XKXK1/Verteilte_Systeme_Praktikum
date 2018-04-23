@@ -44,7 +44,7 @@ public class HorizontalService implements ServiceProvider, Runnable {
 	public void handleMessage(Message message) {
 		switch (message.getCommand()) {
 		case SET:
-			caller.stop_h();
+			stopMovement();
 			goal = message.getValue();
 			System.out.println(goal);
 			if (goal > current) {
@@ -53,7 +53,7 @@ public class HorizontalService implements ServiceProvider, Runnable {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						caller.moveLeft();
+						function1();
 					}
 				}).start();
 
@@ -63,7 +63,7 @@ public class HorizontalService implements ServiceProvider, Runnable {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						caller.moveRight();
+						function2();
 					}
 				}).start();
 
@@ -89,13 +89,31 @@ public class HorizontalService implements ServiceProvider, Runnable {
 		
 			if(left) {
 				if(current >= goal) {
-					caller.stop_h();
+					stopMovement();
 				}
 			} else if(!left) {
 				if(current <= goal) {
-					caller.stop_h();
+					stopMovement();
 				}
 			}
 		}
+	}
+
+	@Override
+	public void function1() {
+		caller.moveLeft();
+		
+	}
+
+	@Override
+	public void function2() {
+		caller.moveRight();
+		
+	}
+
+	@Override
+	public void stopMovement() {
+		caller.stop_h();
+		
 	}
 }

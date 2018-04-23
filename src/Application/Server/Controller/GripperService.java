@@ -15,15 +15,6 @@ public class GripperService implements ServiceProvider, Runnable {
 		messageHandler = new MessageHandler(port);
 	}
 
-	public void gripperOpen() {
-		caller.doOpen();
-
-	}
-
-	public void gripperClose() {
-		caller.doClose();
-
-	}
 
 	@Override
 	public void run() {
@@ -51,9 +42,9 @@ public class GripperService implements ServiceProvider, Runnable {
 		switch (message.getCommand()) {
 		case SET:
 			if (message.getValue() == 0) {
-				gripperClose();
+				function2();
 			} else if (message.getValue() == 1) {
-				gripperOpen();
+				function1();
 			}
 		case GET:
 			Message reply;
@@ -80,6 +71,24 @@ public class GripperService implements ServiceProvider, Runnable {
 		} else {
 			open = true;
 		}
+	}
+
+	@Override
+	public void function1() {
+		caller.doOpen();
+		
+	}
+
+	@Override
+	public void function2() {
+		caller.doClose();
+		
+	}
+
+	@Override
+	public void stopMovement() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
