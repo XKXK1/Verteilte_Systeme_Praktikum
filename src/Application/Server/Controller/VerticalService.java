@@ -7,7 +7,7 @@ import Middleware.MessageCommands;
 import Middleware.MessageHandler;
 import Middleware.MessageType;
 
-public class VerticalService implements ServiceProvider, Runnable {
+public class VerticalService implements IServiceProvider, Runnable {
 	private CaDSEV3RobotHAL caller = null;
 	private MessageHandler messageHandler;
 	private boolean running = false;

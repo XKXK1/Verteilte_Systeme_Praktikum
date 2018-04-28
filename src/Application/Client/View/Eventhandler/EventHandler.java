@@ -1,11 +1,11 @@
-package Application.Client.View;
+package Application.Client.View.Eventhandler;
 import org.cads.ev3.gui.ICaDSRobotGUIUpdater;
 import org.cads.ev3.gui.swing.CaDSRobotGUISwing;
 
+import Application.Client.Controller.Robothandler.RobotHandler;
+import Application.Client.View.GUI.IIDLCaDSEV3RMI;
 
-import Application.Client.Controller.RobotHandler;
-
-public class EventHandler implements IIDLCaDSEV3RMIwrapper {
+public class EventHandler implements IIDLCaDSEV3RMI, IEventHandler {
 
 	private CaDSRobotGUISwing gui = null;
 	private RobotHandler robotHandler = null;
@@ -17,14 +17,17 @@ public class EventHandler implements IIDLCaDSEV3RMIwrapper {
 		robotHandler.addRobot(ip);
 	}
 	
+	@Override
 	public void setVertical(int val){
     	gui.setVerticalProgressbar(val);
     }
 	
+	@Override
     public void setHorizontal(int val){
     	gui.setHorizontalProgressbar(val);
     }
     
+	@Override
     public void setGrip(boolean isOpen){
     	if(isOpen){
     		gui.setGripperOpen();
@@ -58,7 +61,7 @@ public class EventHandler implements IIDLCaDSEV3RMIwrapper {
 
 	@Override
 	public int moveVerticalToPercent(int transactionID, int percent) throws Exception {
-		robotHandler.setVertical(percent);
+		robotHandler.setVerticalRobot(percent);
 		return 0;
 	}
 
@@ -71,7 +74,7 @@ public class EventHandler implements IIDLCaDSEV3RMIwrapper {
 	@Override
 	public int moveHorizontalToPercent(int transactionID, int percent) throws Exception {
 		System.out.println("Current horizontal goal: " + percent);
-		robotHandler.setHorizontal(percent);
+		robotHandler.setHorizontalRobot(percent);
 		return 0;
 	}
 
@@ -83,7 +86,7 @@ public class EventHandler implements IIDLCaDSEV3RMIwrapper {
 
 	@Override
 	public int closeGripper(int transactionID) throws Exception {
-		robotHandler.setGripper(false);
+		robotHandler.setGripRobot(false);
 		return 0;
 	}
 
@@ -95,7 +98,7 @@ public class EventHandler implements IIDLCaDSEV3RMIwrapper {
 
 	@Override
 	public int openGripper(int transactionID) throws Exception {
-		robotHandler.setGripper(true);
+		robotHandler.setGripRobot(true);
 		return 0;
 	}
 

@@ -1,11 +1,13 @@
-package Application.Client.Controller;
+package Application.Client.Controller.Robothandler;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import Application.Client.View.EventHandler;
+import Application.Client.Controller.ClientServiceConsumer.ServiceAddress;
+import Application.Client.Controller.ClientServiceConsumer.ServiceConsumer;
+import Application.Client.View.Eventhandler.EventHandler;
 
-public class RobotHandler {
+public class RobotHandler implements IRobotHandler{
 	private EventHandler eventHandler = null;
 	
 	ServiceConsumer consumer = null;
@@ -15,6 +17,7 @@ public class RobotHandler {
 		eventHandler = handler;
 	}
 	
+	@Override
 	public void addRobot(String ip){
 		ServiceAddress verticalAddress = null;
 		ServiceAddress horizontalAddress = null;
@@ -32,27 +35,33 @@ public class RobotHandler {
 		consumer.startRecv();
 	}
 	
-	public void setHorizontal(int val){
+	@Override
+	public void setHorizontalRobot(int val){
 		consumer.setHorizontal(val);
 	}
 	
-	public void setVertical(int val){
+	@Override
+	public void setVerticalRobot(int val){
 		consumer.setVertical(val);
 	}
 	
-	public void setGripper(boolean isOpen){
-		consumer.setGripper(isOpen);
+	@Override
+	public void setGripRobot(boolean isOpen){
+		consumer.setGrip(isOpen);
 	}
 	
-	public void getHorizontal(int val){
+	@Override
+	public void setHorizontalGUI(int val){
 		eventHandler.setHorizontal(val);
 	}
 	
-	public void getVertical(int val){
+	@Override
+	public void setVerticalGUI(int val){
 		eventHandler.setVertical(val);
 	}
 	
-	public void getGripper(boolean isOpen){
+	@Override
+	public void setGripGUI(boolean isOpen){
 		eventHandler.setGrip(isOpen);
 	}
 }

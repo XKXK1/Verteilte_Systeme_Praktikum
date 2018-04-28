@@ -4,7 +4,7 @@ import org.cads.ev3.middleware.CaDSEV3RobotHAL;
 
 import Middleware.*;
 
-public class GripperService implements ServiceProvider, Runnable {
+public class GripperService implements IServiceProvider, Runnable {
 	private CaDSEV3RobotHAL caller = null;
 	private MessageHandler messageHandler;
 	private boolean running = false;

@@ -1,17 +1,19 @@
-package Application.Client.Controller;
+package Application.Client.Controller.ClientServiceConsumer;
 
+import Application.Client.Controller.Robothandler.RobotHandler;
 import Middleware.Message;
 import Middleware.MessageCommands;
 import Middleware.MessageHandler;
 import Middleware.MessageType;
 import lejos.utility.Delay;
 
-public class ServiceConsumer implements Runnable{
+public class ServiceConsumer implements Runnable, IServiceConsumer{
 
+	private final int send_delay = 128;
+	
 	private float verticalPosition = 0;
 	private float horizontalPosition = 0;
 	private boolean isGripperOpen = false;
-	private final int delay = 128;
 	
 	private boolean isAlive = false;
 	private Thread recvThread = null;
@@ -40,6 +42,7 @@ public class ServiceConsumer implements Runnable{
 		this.handler = handler;
 	}
 	
+	@Override
 	public void setVertical(int val){
 		Message msg = new Message(MessageType.VERTICAl, MessageCommands.SET, val);
 		msg.setPort(verticalAddress.getPort());
@@ -47,6 +50,7 @@ public class ServiceConsumer implements Runnable{
 		verticalService.sendMessage(msg);
 	}
 	
+	@Override
 	public void setHorizontal(int val){
 		Message msg = new Message(MessageType.HORIZONTAL, MessageCommands.SET, val);
 		msg.setPort(horizontalAddress.getPort());
@@ -54,7 +58,8 @@ public class ServiceConsumer implements Runnable{
 		horizontalService.sendMessage(msg);
 	}
 	
-	public void setGripper(boolean isOpen){
+	@Override
+	public void setGrip(boolean isOpen){
 		int val = 0;
 		if(isOpen){
 			val = 1;
@@ -85,7 +90,7 @@ public class ServiceConsumer implements Runnable{
 			getGripper();
 			getHorizontal();
 			getVertical();
-			Delay.msDelay(delay);
+			Delay.msDelay(send_delay);
 		}
 	}
 	
@@ -101,13 +106,13 @@ public class ServiceConsumer implements Runnable{
 				if(msg.getValue() == 1){
 					if(!isGripperOpen){
 						isGripperOpen = true;
-						handler.getGripper(isGripperOpen);
+						handler.setGripGUI(isGripperOpen);
 					}
 				}
 				else{
 					if(isGripperOpen){
 						isGripperOpen = false;
-						handler.getGripper(isGripperOpen);
+						handler.setGripGUI(isGripperOpen);
 					}
 				}
 			}
@@ -125,7 +130,7 @@ public class ServiceConsumer implements Runnable{
 			if(msg.getCommand().equals(MessageCommands.REPLY) && msg.getType().equals(MessageType.HORIZONTAL)){
 				int val = msg.getValue();
 				if(val != horizontalPosition){
-					handler.getHorizontal(val);
+					handler.setHorizontalGUI(val);
 				}
 				horizontalPosition = val;
 			}
@@ -143,7 +148,7 @@ public class ServiceConsumer implements Runnable{
 			if(msg.getCommand().equals(MessageCommands.REPLY) && msg.getType().equals(MessageType.VERTICAl)){
 				int val = msg.getValue();
 				if(val != verticalPosition){
-					handler.getVertical(val);
+					handler.setVerticalGUI(val);
 				}
 				verticalPosition = val;
 			}
