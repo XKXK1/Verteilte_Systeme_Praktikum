@@ -7,39 +7,16 @@ import Middleware.MessageCommands;
 import Middleware.MessageHandler;
 import Middleware.MessageType;
 
-public class VerticalService implements IServiceProvider, Runnable {
+public class VerticalService implements IServiceProvider, IHalServices {
 	private CaDSEV3RobotHAL caller = null;
-	private MessageHandler messageHandler;
-	private boolean running = false;
+	private MessageHandler messageHandler = null;
 
 	private int current = 0;
 	private int goal = -1;
 	private boolean up = false;
 
-	public VerticalService(int port) {
-		running = true;
-		messageHandler = new MessageHandler(port);
-	}
+	public VerticalService() {
 
-	@Override
-	public void run() {
-		Message msg = null;
-		caller = CaDSEV3RobotHAL.getInstance();
-
-		System.out.println("vertical service started");
-		while (running) {
-			msg = messageHandler.receiveMessage();
-			if (msg != null) {
-				handleMessage(msg);
-			}
-		}
-
-		System.out.println("vertical service ended");
-	}
-
-	@Override
-	public void kill() {
-		running = false;
 	}
 
 	@Override
@@ -117,6 +94,24 @@ public class VerticalService implements IServiceProvider, Runnable {
 	@Override
 	public void stopMovement() {
 		caller.stop_v();
+		
+	}
+
+	@Override
+	public void update(String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setHal() {
+		caller = CaDSEV3RobotHAL.getInstance();
+		
+	}
+	
+	@Override
+	public void setMessageHandler(MessageHandler handler) {
+		this.messageHandler = handler;
 		
 	}
 

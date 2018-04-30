@@ -5,35 +5,50 @@ import java.util.Scanner;
 import Application.Server.Controller.GripperService;
 import Application.Server.Controller.HalDataContainer;
 import Application.Server.Controller.HorizontalService;
+import Application.Server.Controller.IHalServices;
+import Application.Server.Controller.IServiceProvider;
 import Application.Server.Controller.VerticalService;
+import Middleware.MessageHandlerServer;
 
 public class ServerMain {
 
 	static public void main(String[] args) {
-		GripperService gService = new GripperService(2000);
-		HorizontalService hService = new HorizontalService(2001);
-		VerticalService vService = new VerticalService(2002);
-		new HalDataContainer(gService,hService,vService);		
+
+	IServiceProvider gService = new GripperService();
+	IServiceProvider hService = new HorizontalService();
+	IServiceProvider vService = new VerticalService();
+	new HalDataContainer(gService,hService,vService);		
+	gService.setHal();
+	hService.setHal();
+	vService.setHal();
 		
-		Thread verticalThread = new Thread(vService);
-		Thread horizontalThread = new Thread(hService);
-		Thread gripperThread = new Thread(gService);
-		gripperThread.start();
-		horizontalThread.start();
-		verticalThread.start();
-		
-		Scanner scanner = new Scanner(System.in);
-		scanner.nextLine();
-		gService.kill();
-		hService.kill();
-		vService.kill();
-		try {
-			gripperThread.join();
-			horizontalThread.join();
-			verticalThread.join();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	MessageHandlerServer gHandler = new MessageHandlerServer(2000, gService);
+	MessageHandlerServer hHandler = new MessageHandlerServer(2001, hService);
+	MessageHandlerServer vHandler = new MessageHandlerServer(2002, vService);
+	
+	gService.setMessageHandler(gHandler);
+	hService.setMessageHandler(hHandler);
+	vService.setMessageHandler(vHandler);
+	
+	
+	Thread verticalSocketThread = new Thread(vHandler);
+	Thread horizontalSocketThread = new Thread(hHandler);
+	Thread gripperSocketThread = new Thread(gHandler);
+	
+	gripperSocketThread.start();
+	horizontalSocketThread.start();
+	verticalSocketThread.start();
+	
+	Scanner scanner = new Scanner(System.in);
+	scanner.nextLine();
+	
+	try {
+		gripperSocketThread.join();
+		horizontalSocketThread.join();
+		verticalSocketThread.join();
+	} catch (InterruptedException e) {
+		e.printStackTrace();
 	}
 	
+}
 }

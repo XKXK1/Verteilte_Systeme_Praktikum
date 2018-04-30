@@ -7,11 +7,11 @@ import org.cads.ev3.middleware.hal.ICaDSEV3RobotStatusListener;
 import org.json.simple.JSONObject;
 
 public class HalDataContainer implements ICaDSEV3RobotStatusListener, ICaDSEV3RobotFeedBackListener {
-	private GripperService gService;
-	private HorizontalService hService;
-	private VerticalService vService;
+	private IServiceProvider gService;
+	private IServiceProvider hService;
+	private IServiceProvider vService;
 
-	public HalDataContainer(GripperService gService, HorizontalService hService, VerticalService vService) {
+	public HalDataContainer(IServiceProvider gService, IServiceProvider hService, IServiceProvider vService) {
 		this.gService = gService;
 		this.hService = hService;
 		this.vService = vService;

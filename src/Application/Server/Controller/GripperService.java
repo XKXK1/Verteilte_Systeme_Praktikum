@@ -4,37 +4,12 @@ import org.cads.ev3.middleware.CaDSEV3RobotHAL;
 
 import Middleware.*;
 
-public class GripperService implements IServiceProvider, Runnable {
+public class GripperService implements IServiceProvider, IHalServices {
 	private CaDSEV3RobotHAL caller = null;
-	private MessageHandler messageHandler;
-	private boolean running = false;
+	private MessageHandler messageHandler = null;
 	private boolean open = false;
 
-	public GripperService(int port) {
-		running = true;
-		messageHandler = new MessageHandler(port);
-	}
-
-
-	@Override
-	public void run() {
-		Message msg = null;
-		caller = CaDSEV3RobotHAL.getInstance();
-
-		System.out.println("grip service started");
-		while (running) {
-			msg = messageHandler.receiveMessage();
-			if (msg != null) {
-				handleMessage(msg);
-			}
-		}
-
-		System.out.println("grip service ended");
-	}
-
-	@Override
-	public void kill() {
-		running = false;
+	public GripperService() {
 	}
 
 	@Override
@@ -65,8 +40,7 @@ public class GripperService implements IServiceProvider, Runnable {
 	}
 
 	public void update(String value) {
-		//System.out.println(value);
-		if(value == "closed") {
+		if (value == "closed") {
 			open = false;
 		} else {
 			open = true;
@@ -76,19 +50,36 @@ public class GripperService implements IServiceProvider, Runnable {
 	@Override
 	public void function1() {
 		caller.doOpen();
-		
+
 	}
 
 	@Override
 	public void function2() {
 		caller.doClose();
-		
+
 	}
 
 	@Override
 	public void stopMovement() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void update(Integer value) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setHal() {
+		caller = CaDSEV3RobotHAL.getInstance();
+
+	}
+
+	@Override
+	public void setMessageHandler(MessageHandler handler) {
+		this.messageHandler = handler;
 	}
 
 }

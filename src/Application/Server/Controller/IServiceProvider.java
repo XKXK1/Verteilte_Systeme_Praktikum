@@ -1,14 +1,15 @@
 package Application.Server.Controller;
 
 import Middleware.Message;
+import Middleware.MessageHandler;
 
 public interface IServiceProvider {
 	
-	public void function1();
-	public void function2();
-	public void stopMovement();
-	public void run();
-	public void kill();
+
 	public void handleMessage(Message message);
+	public void setMessageHandler(MessageHandler handler);
+	public void setHal();
+	public void update(String value);
+	public void update(Integer value);
 
 }

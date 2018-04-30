@@ -4,6 +4,7 @@ import Application.Client.Controller.Robothandler.RobotHandler;
 import Middleware.Message;
 import Middleware.MessageCommands;
 import Middleware.MessageHandler;
+import Middleware.MessageHandlerClient;
 import Middleware.MessageType;
 import lejos.utility.Delay;
 
@@ -18,9 +19,9 @@ public class ServiceConsumer implements Runnable, IServiceConsumer{
 	private boolean isAlive = false;
 	private Thread recvThread = null;
 	
-	private MessageHandler verticalService = null;
-	private MessageHandler horizontalService = null;
-	private MessageHandler gripperService = null;
+	private MessageHandlerClient verticalService = null;
+	private MessageHandlerClient horizontalService = null;
+	private MessageHandlerClient gripperService = null;
 	
 	private ServiceAddress verticalAddress = null;
 	private ServiceAddress horizontalAddress = null;
@@ -35,9 +36,9 @@ public class ServiceConsumer implements Runnable, IServiceConsumer{
 		this.verticalAddress = verticalAddress;
 		this.gripperAddress = gripperAddress;
 		
-		gripperService = new MessageHandler();
-		verticalService = new MessageHandler();
-		horizontalService = new MessageHandler();
+		gripperService = new MessageHandlerClient(this);
+		verticalService = new MessageHandlerClient(this);
+		horizontalService = new MessageHandlerClient(this);
 		
 		this.handler = handler;
 	}
@@ -153,6 +154,12 @@ public class ServiceConsumer implements Runnable, IServiceConsumer{
 				verticalPosition = val;
 			}
 		}
+	}
+
+	@Override
+	public void handleMessage(Message msg) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
