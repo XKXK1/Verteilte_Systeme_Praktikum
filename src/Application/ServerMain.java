@@ -5,7 +5,6 @@ import java.util.Scanner;
 import Application.Server.Controller.GripperService;
 import Application.Server.Controller.HalDataContainer;
 import Application.Server.Controller.HorizontalService;
-import Application.Server.Controller.IHalServices;
 import Application.Server.Controller.IServiceProvider;
 import Application.Server.Controller.VerticalService;
 import Middleware.MessageHandlerServer;
@@ -41,6 +40,7 @@ public class ServerMain {
 	
 	Scanner scanner = new Scanner(System.in);
 	scanner.nextLine();
+	scanner.close();
 	
 	try {
 		gripperSocketThread.join();

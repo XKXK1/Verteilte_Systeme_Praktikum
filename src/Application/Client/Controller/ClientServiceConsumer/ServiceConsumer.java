@@ -3,7 +3,6 @@ package Application.Client.Controller.ClientServiceConsumer;
 import Application.Client.Controller.Robothandler.RobotHandler;
 import Middleware.Message;
 import Middleware.MessageCommands;
-import Middleware.MessageHandler;
 import Middleware.MessageHandlerClient;
 import Middleware.MessageType;
 import lejos.utility.Delay;
