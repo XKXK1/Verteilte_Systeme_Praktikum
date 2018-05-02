@@ -1,4 +1,4 @@
-package Middleware;
+package SharedLibraryMW;
 
 public enum MessageCommands { 
 	GET, SET, REPLY;

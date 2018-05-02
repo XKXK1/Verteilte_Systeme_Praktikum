@@ -1,10 +1,10 @@
-package Application.Client.Controller.ClientServiceConsumer;
+package Application.Client.Controller.ServiceConsumer;
 
 import Application.Client.Controller.Robothandler.RobotHandler;
-import Middleware.Message;
-import Middleware.MessageCommands;
-import Middleware.MessageHandlerClient;
-import Middleware.MessageType;
+import Middleware.MiddlewareClientside.MessageHandlerClient;
+import SharedLibraryMW.Message;
+import SharedLibraryMW.MessageCommands;
+import SharedLibraryMW.MessageType;
 import lejos.utility.Delay;
 
 public class ServiceConsumer implements Runnable, IServiceConsumer{

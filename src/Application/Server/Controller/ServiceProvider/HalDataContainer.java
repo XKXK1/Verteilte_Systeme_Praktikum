@@ -1,21 +1,26 @@
-package Application.Server.Controller;
+package Application.Server.Controller.ServiceProvider;
 
 import org.cads.ev3.middleware.CaDSEV3RobotHAL;
 import org.cads.ev3.middleware.CaDSEV3RobotType;
-import org.cads.ev3.middleware.hal.ICaDSEV3RobotFeedBackListener;
-import org.cads.ev3.middleware.hal.ICaDSEV3RobotStatusListener;
 import org.json.simple.JSONObject;
 
-public class HalDataContainer implements ICaDSEV3RobotStatusListener, ICaDSEV3RobotFeedBackListener {
+import Application.Server.Model.RobotHal.IHalServices;
+
+public class HalDataContainer implements IHalServices {
 	private IServiceProvider gService;
 	private IServiceProvider hService;
 	private IServiceProvider vService;
 
 	public HalDataContainer(IServiceProvider gService, IServiceProvider hService, IServiceProvider vService) {
-		this.gService = gService;
-		this.hService = hService;
+		this.gService = gService;	
+		this.hService = hService;	
 		this.vService = vService;
+		
 		CaDSEV3RobotHAL.createInstance(CaDSEV3RobotType.SIMULATION, this, this);
+		
+		gService.setHal();
+		hService.setHal();
+		vService.setHal();
 	}
 
 
@@ -35,7 +40,6 @@ public class HalDataContainer implements ICaDSEV3RobotStatusListener, ICaDSEV3Ro
 			
 		} else if("vertical".equals(state)) {
 			vService.update(((Long)status.get("percent")).intValue());			
-		}
-		
+		}		
 	}
 }

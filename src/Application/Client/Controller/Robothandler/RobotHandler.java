@@ -3,8 +3,8 @@ package Application.Client.Controller.Robothandler;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import Application.Client.Controller.ClientServiceConsumer.ServiceAddress;
-import Application.Client.Controller.ClientServiceConsumer.ServiceConsumer;
+import Application.Client.Controller.ServiceConsumer.ServiceAddress;
+import Application.Client.Controller.ServiceConsumer.ServiceConsumer;
 import Application.Client.View.Eventhandler.EventHandler;
 
 public class RobotHandler implements IRobotHandler{

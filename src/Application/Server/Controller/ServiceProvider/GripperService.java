@@ -1,10 +1,12 @@
-package Application.Server.Controller;
+package Application.Server.Controller.ServiceProvider;
 
 import org.cads.ev3.middleware.CaDSEV3RobotHAL;
+import SharedLibraryMW.Message;
+import SharedLibraryMW.MessageCommands;
+import SharedLibraryMW.MessageHandler;
+import SharedLibraryMW.MessageType;
 
-import Middleware.*;
-
-public class GripperService implements IServiceProvider, IHalServices {
+public class GripperService implements IServiceProvider, IServices {
 	private CaDSEV3RobotHAL caller = null;
 	private MessageHandler messageHandler = null;
 	private boolean open = false;
@@ -21,6 +23,7 @@ public class GripperService implements IServiceProvider, IHalServices {
 			} else if (message.getValue() == 1) {
 				function1();
 			}
+			break;
 		case GET:
 			Message reply;
 			if (open) {

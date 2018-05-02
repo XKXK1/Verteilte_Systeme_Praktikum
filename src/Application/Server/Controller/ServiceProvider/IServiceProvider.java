@@ -1,7 +1,7 @@
-package Application.Server.Controller;
+package Application.Server.Controller.ServiceProvider;
 
-import Middleware.Message;
-import Middleware.MessageHandler;
+import SharedLibraryMW.Message;
+import SharedLibraryMW.MessageHandler;
 
 public interface IServiceProvider {
 	

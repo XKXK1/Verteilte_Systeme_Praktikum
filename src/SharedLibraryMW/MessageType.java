@@ -1,4 +1,4 @@
-package Middleware;
+package SharedLibraryMW;
 
 public enum MessageType {
 	VERTICAl, HORIZONTAL, GRIP;

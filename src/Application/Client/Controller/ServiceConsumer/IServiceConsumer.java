@@ -1,6 +1,6 @@
-package Application.Client.Controller.ClientServiceConsumer;
+package Application.Client.Controller.ServiceConsumer;
 
-import Middleware.Message;
+import SharedLibraryMW.Message;
 
 public interface IServiceConsumer {
 

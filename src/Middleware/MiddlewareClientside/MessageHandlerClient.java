@@ -1,6 +1,9 @@
-package Middleware;
+package Middleware.MiddlewareClientside;
 
-import Application.Client.Controller.ClientServiceConsumer.IServiceConsumer;
+import Application.Client.Controller.ServiceConsumer.IServiceConsumer;
+import SharedLibraryMW.Message;
+import SharedLibraryMW.MessageHandler;
+import SharedLibraryMW.UdpHandler;
 
 public class MessageHandlerClient extends MessageHandler implements Runnable {
 	private IServiceConsumer _provider = null;

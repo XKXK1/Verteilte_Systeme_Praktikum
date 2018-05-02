@@ -1,6 +1,9 @@
-package Middleware;
+package Middleware.MiddlewareServerside;
 
-import Application.Server.Controller.IServiceProvider;
+import Application.Server.Controller.ServiceProvider.IServiceProvider;
+import SharedLibraryMW.Message;
+import SharedLibraryMW.MessageHandler;
+import SharedLibraryMW.UdpHandler;
 
 public class MessageHandlerServer extends MessageHandler implements Runnable {
 	private IServiceProvider _provider = null;

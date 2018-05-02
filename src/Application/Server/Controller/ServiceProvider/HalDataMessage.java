@@ -1,6 +1,6 @@
-package Application.Server.Controller;
+package Application.Server.Controller.ServiceProvider;
 
-import Middleware.MessageType;
+import SharedLibraryMW.MessageType;
 
 public class HalDataMessage {
 	private int value;

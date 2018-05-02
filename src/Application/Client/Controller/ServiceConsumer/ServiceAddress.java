@@ -1,4 +1,4 @@
-package Application.Client.Controller.ClientServiceConsumer;
+package Application.Client.Controller.ServiceConsumer;
 
 import java.net.InetAddress;
 

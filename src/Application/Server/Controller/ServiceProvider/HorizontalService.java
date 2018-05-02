@@ -1,22 +1,20 @@
-package Application.Server.Controller;
+package Application.Server.Controller.ServiceProvider;
 
 import org.cads.ev3.middleware.CaDSEV3RobotHAL;
 
-import Middleware.Message;
-import Middleware.MessageCommands;
-import Middleware.MessageHandler;
-import Middleware.MessageType;
+import SharedLibraryMW.Message;
+import SharedLibraryMW.MessageCommands;
+import SharedLibraryMW.MessageHandler;
+import SharedLibraryMW.MessageType;
 
-public class VerticalService implements IServiceProvider, IHalServices {
+public class HorizontalService implements IServiceProvider, IServices {
 	private CaDSEV3RobotHAL caller = null;
 	private MessageHandler messageHandler = null;
-
 	private int current = 0;
-	private int goal = -1;
-	private boolean up = false;
+	private int goal = 0;
+	private boolean left = false;
 
-	public VerticalService() {
-
+	public HorizontalService() {
 	}
 
 	@Override
@@ -27,7 +25,7 @@ public class VerticalService implements IServiceProvider, IHalServices {
 			goal = message.getValue();
 			System.out.println(goal);
 			if (goal > current) {
-				up = true;
+				left = true;
 
 				new Thread(new Runnable() {
 					@Override
@@ -37,7 +35,7 @@ public class VerticalService implements IServiceProvider, IHalServices {
 				}).start();
 
 			} else if (goal < current) {
-				up = false;
+				left = false;
 
 				new Thread(new Runnable() {
 					@Override
@@ -49,7 +47,7 @@ public class VerticalService implements IServiceProvider, IHalServices {
 			}
 			break;
 		case GET:
-			Message reply = new Message(MessageType.VERTICAl, MessageCommands.REPLY, current);
+			Message reply = new Message(MessageType.HORIZONTAL, MessageCommands.REPLY, current);
 			reply.setAddress(message.getAddress());
 			reply.setPort(message.getPort());
 
@@ -63,39 +61,40 @@ public class VerticalService implements IServiceProvider, IHalServices {
 	}
 
 	public void update(Integer value) {
-		if (value != null) {
+		if(value != null) {
 			current = value;
-
-			if (up) {
-				if (current >= goal) {
+		
+			if(left) {
+				if(current >= goal) {
 					stopMovement();
 				}
-			} else if (!up) {
-				if (current <= goal) {
+			} else if(!left) {
+				if(current <= goal) {
 					stopMovement();
 				}
 			}
-
 		}
 	}
 
 	@Override
 	public void function1() {
-		caller.moveUp();
-
+		caller.moveLeft();
+		
 	}
 
 	@Override
 	public void function2() {
-		caller.moveDown();
+		caller.moveRight();
 		
 	}
 
 	@Override
 	public void stopMovement() {
-		caller.stop_v();
+		caller.stop_h();
 		
 	}
+
+
 
 	@Override
 	public void update(String value) {
@@ -103,16 +102,16 @@ public class VerticalService implements IServiceProvider, IHalServices {
 		
 	}
 
+
+
 	@Override
 	public void setHal() {
 		caller = CaDSEV3RobotHAL.getInstance();
 		
 	}
-	
 	@Override
 	public void setMessageHandler(MessageHandler handler) {
 		this.messageHandler = handler;
 		
 	}
-
 }
